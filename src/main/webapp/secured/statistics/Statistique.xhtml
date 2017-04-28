@@ -10,58 +10,65 @@
     </h:head>
     <ui:composition template="../template.xhtml">
         <ui:define name="body">
-            <h:body>
+           <h:body>
                 <br></br>
                 <h:form id="form">
                     <p:outputLabel value="Adresse" />
                     <p:panelGrid columns="8">
-                         <p:outputLabel value="Commune:" for="commune" />
-                                        <p:selectOneMenu id="commune"   value="#{statistiqueController.commune}" >
+                        <p:outputLabel value="Commune:"  for="commune"  />
+                        <p:selectOneMenu id="commune" value="#{taxeTrimBoissonController.thisCommune}" >
                                             <f:selectItem itemLabel="--select--" itemValue=""></f:selectItem>
-                                            <f:selectItems value="#{statistiqueController.communesAvailableSelectOne}" />
-                                            <p:ajax listener="#{statistiqueController.secteureByCommun()}"  update="secteure,quartier,rue" ></p:ajax>
+                                            <f:selectItems value="#{taxeTrimBoissonController.communesAvailableSelectOne}"  var="itemCommune" itemValue="#{itemCommune}" itemLabel="#{itemCommune.name}"/>
+                                            <p:ajax   process="secteure" listener="#{taxeTrimBoissonController.secteureByCommun()}"  update="secteure,quartier,rue" ></p:ajax>
                                         </p:selectOneMenu>
-                        
+
                                         <p:outputLabel value="Secteure:" for="secteure" />
-                                        <p:selectOneMenu   id="secteure"   value="#{statistiqueController.secteur}" >
-                                            <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
-                                            <f:selectItems value="#{statistiqueController.commune.secteurs}"  var="itemSecteur" itemValue="#{itemSecteur}" itemLabel="#{itemSecteur.name}"/>
-                                            <p:ajax listener="#{statistiqueController.quartierBySecteure()}"  update="quartier"></p:ajax>
+                                        <p:selectOneMenu   id="secteure"   value="#{taxeTrimBoissonController.secteur}" >
+                                            <f:selectItem itemLabel="--select--" itemValue=""></f:selectItem>
+                                            <f:selectItems value="#{taxeTrimBoissonController.thisCommune.secteurs}"  var="itemSecteur" itemValue="#{itemSecteur}" itemLabel="#{itemSecteur.name}"/>
+                                            <p:ajax listener="#{taxeTrimBoissonController.quartierBySecteure()}"  update="quartier"></p:ajax>
                                         </p:selectOneMenu>
 
                                         <p:outputLabel value="Quartier:" for="quartier" />
-                                        <p:selectOneMenu id="quartier"  value="#{statistiqueController.quartier}" >
+                                        <p:selectOneMenu id="quartier"  value="#{taxeTrimBoissonController.quartier}" >
                                             <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
-                                            <f:selectItems value="#{statistiqueController.secteur.quartiers}" var="itemQuartie" itemValue="#{itemQuartie}" itemLabel="#{itemQuartie.name}" />
-                                            <p:ajax listener="#{statistiqueController.rueByQuartier()}"  update="rue"></p:ajax>
+                                            <f:selectItems value="#{taxeTrimBoissonController.secteur.quartiers}" var="itemQuartie" itemValue="#{itemQuartie}" itemLabel="#{itemQuartie.name}" />
+                                            <p:ajax listener="#{taxeTrimBoissonController.rueByQuartier()}"  update="rue"></p:ajax>
                                         </p:selectOneMenu>
 
                                         <p:outputLabel value="Rue:" for="rue" />
-                                        <p:selectOneMenu id="rue" value="#{statistiqueController.rue}" >
+                                        <p:selectOneMenu id="rue" value="#{taxeTrimBoissonController.rue}" >
                                             <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
-                                            <f:selectItems value="#{statistiqueController.quartier.rues}" var="itemRue"  itemValue="#{itemRue}" itemLabel="#{itemRue.name}"/>
+                                            <f:selectItems value="#{taxeTrimBoissonController.quartier.rues}" var="itemRue"  itemValue="#{itemRue}" itemLabel="#{itemRue.name}"/>
                                         </p:selectOneMenu>
 
+                        
                         <p:outputLabel value="1eme année" ></p:outputLabel>
-                        <p:inputText id="firstYear" value="#{statistiqueController.anneeDeb}" title="1eme année"/>
+                        <p:inputText id="firstYear" value="#{taxeTrimBoissonController.anneeDeb}" title="1eme année"/>
                         <p:outputLabel value="2eme année"></p:outputLabel>
-                        <p:inputText id="secondYear" value="#{statistiqueController.anneeFin}" title="2eme année"/>
+                        <p:inputText id="secondYear" value="#{taxeTrimBoissonController.anneeFin}" title="2eme année"/>
 
-                      
+                        <p:outputLabel value="type de graphe" for="type" />
+                        <p:selectOneMenu id="type" value="#{taxeTrimBoissonController.typeGraphe}" >
+                            <f:selectItem itemValue="1" itemLabel="Bar"/>
+                            <f:selectItem itemValue="2" itemLabel="Line"/>
+                            <f:selectItem itemValue="3" itemLabel="Circle"/>
+                            <p:ajax update=":statistique" listener="#{taxeTrimBoissonController.createModel()}"></p:ajax>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:toolbar>
                         <p:toolbarGroup>
-                            <p:commandButton style="width: 110px !important" update=":statistique" value="Rechecher" actionListener="#{statistiqueController.createBarChar()}"></p:commandButton>
+                            <p:commandButton update=":statistique" value="Rechecher" actionListener="#{taxeTrimBoissonController.createModel()}"></p:commandButton>
                         </p:toolbarGroup>
                     </p:toolbar>
                 </h:form>
                 <h:form id="statistique" >
-                    <p:chart type="bar" id="graphe" model="#{statistiqueController.barModel}" />
+                <p:chart type="bar" id="graphe" model="#{taxeTrimBoissonController.barModel}"  rendered="#{taxeTrimBoissonController.typeGraphe==1}"/>
+                <p:chart type="donut" id="donut" model="#{taxeTrimBoissonController.donutModel}"  rendered="#{taxeTrimBoissonController.typeGraphe==3}" />
+                <p:chart type="line" id="line" model="#{taxeTrimBoissonController.lineModel}"  rendered="#{taxeTrimBoissonController.typeGraphe==2}" />
                 </h:form>
             </h:body>
         </ui:define>
     </ui:composition>   
 
-
 </html>
-
