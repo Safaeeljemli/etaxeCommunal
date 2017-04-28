@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title><ui:insert name="title">Default Title</ui:insert></title>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <h:outputScript library="js" name="jsfcrud.js"/>
+        <link src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"/>
+    </h:head>
+
+    <h:body>
+
+        <p:growl id="growl" life="3000" />
+
+        <h:form id="growlForm">
+            <p:growl id="growl" life="3000" />
+        </h:form>
+
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" size="60" header="#{bundle.AppName}">
+                <h:form id="menuForm">
+                    <p:menubar>
+                        <p:menuitem value="#{bundle.Home}" action="#{userController.seDeConnnecter()}" icon="ui-icon-home"/>
+                        <p:submenu label="#{bundle.Maintenance}">
+                            <p:menuitem value="Activite" outcome="/secured/activite/List.xhtml" />
+                            <p:menuitem value="Commune" outcome="/secured/commune/List.xhtml" />
+                            <p:menuitem value="Locale" outcome="/secured/locale/List.xhtml" />
+                            <p:menuitem value="Quartier" outcome="/secured/quartier/List.xhtml" />
+                            <p:menuitem value="Redevable" outcome="/secured/redevable/List.xhtml" />
+                            <p:menuitem value="Rue" outcome="/secured/rue/List.xhtml" />
+                            <p:menuitem value="Secteur" outcome="/secured/secteur/List.xhtml" />
+                            <p:menuitem value="TauxBoissonTaxe" outcome="/secured/tauxBoissonTaxe/List.xhtml" />
+                            <p:menuitem value="TauxRetardBoisonTrim" outcome="/secured/tauxRetardBoisonTrim/List.xhtml" />
+                            <p:menuitem value="TaxeAnnuelBoisson" outcome="/secured/taxeAnnuelBoisson/List.xhtml" />
+                            <p:menuitem value="TaxeTrimBoisson" outcome="/secured/taxeTrimBoisson/List.xhtml" />
+
+                            <p:menuitem value="Chart" outcome="/secured/statistics/Statistique.xhtml" />
+                        </p:submenu>
+
+                        <p:menuitem rendered="#{userController.canAccesseRedevable()}" value="Redevable" outcome="/secured/redevable/CreateNewRedevable"/>
+
+                        <p:submenu rendered="#{userController.canAccesseAdminBar()}" label="Admin Bar">
+                            <p:menuitem value="Utilisateurs" outcome="/secured/user/List.xhtml" />
+                            <p:menuitem value="History" outcome="/secured/history/List.xhtml" />
+                            <p:menuitem value="Journal" outcome="/secured/journal/List.xhtml" />
+                            <p:menuitem value="Taux Taxe" outcome="/secured/tauxBoissonTaxe/List.xhtml" />
+                            <p:menuitem value="Taux Retard Taxe" outcome="/secured/tauxRetardBoisonTrim/List.xhtml" />
+                        </p:submenu>
+                        <p:submenu rendered="#{userController.canAccesseTaxes()}" label="Taxes">
+                            <p:menuitem value="Cree/sumiler" outcome="/secured/taxeTrimBoisson/List.xhtml" />
+                            <p:menuitem value="Taxe Annuel" outcome="/secured/taxeAnnuelBoisson/List.xhtml" />
+
+                        </p:submenu>
+                        <p:submenu rendered="#{userController.canAccesseAdressage()}" label="Adressage">
+                            <p:menuitem value="Commune" outcome="/secured/commune/List.xhtml" />
+                            <p:menuitem value="Secteur" outcome="/secured/secteur/List.xhtml" />
+                            <p:menuitem value="Quartier" outcome="/secured/rue/List.xhtml" />
+                            <p:menuitem value="Rue" outcome="/secured/commune/List.xhtml" />
+                        </p:submenu>
+                        <p:submenu rendered="#{userController.canAccesseLocals()}" label="Locals">
+                            <p:menuitem value="Locales" outcome="/secured/locale/List.xhtml" />
+                            <p:menuitem value="Map" outcome="/secured/locale/LocalMap.xhtml" />
+                            <p:menuitem value="Activite" outcome="/secured/activite/List.xhtml" />
+                        </p:submenu>
+                    </p:menubar>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="30">
+                <ui:insert name="footer"/>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <ui:insert name="body"/>
+            </p:layoutUnit>
+
+        </p:layout>
+
+    </h:body>
+
+</html>

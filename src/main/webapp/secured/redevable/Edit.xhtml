@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RedevableEditDlg" widgetVar="RedevableEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditRedevableTitle}">
+            <h:form id="RedevableEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{redevableController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditRedevableLabel_cin}" for="cin" />
+                        <p:inputText id="cin" value="#{redevableController.selected.cin}" title="#{bundle.EditRedevableTitle_cin}" />
+                        <p:outputLabel value="#{bundle.EditRedevableLabel_rc}" for="rc" />
+                        <p:inputText id="rc" value="#{redevableController.selected.rc}" title="#{bundle.EditRedevableTitle_rc}" />
+                        <p:outputLabel value="#{bundle.EditRedevableLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{redevableController.selected.nom}" title="#{bundle.EditRedevableTitle_nom}" />
+                        <p:outputLabel value="#{bundle.EditRedevableLabel_prenom}" for="prenom" />
+                        <p:inputText id="prenom" value="#{redevableController.selected.prenom}" title="#{bundle.EditRedevableTitle_prenom}" />
+                        <p:outputLabel value="#{bundle.EditRedevableLabel_nature}" for="nature" />
+                        <p:inputText id="nature" value="#{redevableController.selected.nature}" title="#{bundle.EditRedevableTitle_nature}" />
+                        <p:outputLabel value="#{bundle.EditRedevableLabel_mail}" for="mail" />
+                        <p:inputText id="mail" value="#{redevableController.selected.mail}" title="#{bundle.EditRedevableTitle_mail}" />
+                        <p:outputLabel value="#{bundle.EditRedevableLabel_dateDeCommencement}" for="dateDeCommencement" />
+                        <p:calendar id="dateDeCommencement" pattern="MM/dd/yyyy" value="#{redevableController.selected.dateDeCommencement}" title="#{bundle.EditRedevableTitle_dateDeCommencement}"  showOn="button">
+                            <f:converter converterId="dateAttributeConverter"/>
+                        </p:calendar>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{redevableController.update}" value="#{bundle.Save}" update="display,:RedevableListForm:datalist,:growl" oncomplete="handleSubmit(args, 'RedevableEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="RedevableEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SecteurViewDlg" widgetVar="SecteurViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewSecteurTitle}">
+            <h:form id="SecteurViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{secteurController.selected != null}">
+                        <h:outputText value="#{bundle.ViewSecteurLabel_id}"/>
+                        <h:outputText value="#{secteurController.selected.id}" title="#{bundle.ViewSecteurTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewSecteurLabel_name}"/>
+                        <h:outputText value="#{secteurController.selected.name}" title="#{bundle.ViewSecteurTitle_name}"/>
+                        <h:outputText value="#{bundle.ViewSecteurLabel_commune}"/>
+                        <h:outputText value="#{secteurController.selected.commune}" title="#{bundle.ViewSecteurTitle_commune}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="SecteurViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

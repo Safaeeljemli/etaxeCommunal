@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="JournalCreateDlg" widgetVar="JournalCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateJournalTitle}">
+            <h:form id="JournalCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{journalController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateJournalLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{journalController.selected.id}" title="#{bundle.CreateJournalTitle_id}" />
+                        <p:outputLabel value="#{bundle.CreateJournalLabel_user}" for="user" />
+                        <p:selectOneMenu id="user" value="#{journalController.selected.user}" >
+                            <f:selectItems value="#{userrController.itemsAvailableSelectOne}"
+                                           var="userItem"
+                                           itemValue="#{userItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateJournalLabel_dateDeModification}" for="dateDeModification" />
+                        <p:inputText id="dateDeModification" value="#{journalController.selected.dateDeModification}" title="#{bundle.CreateJournalTitle_dateDeModification}" />
+                        <p:outputLabel value="#{bundle.CreateJournalLabel_typeDaction}" for="typeDaction" />
+                        <p:inputText id="typeDaction" value="#{journalController.selected.typeDaction}" title="#{bundle.CreateJournalTitle_typeDaction}" />
+                        <p:outputLabel value="#{bundle.CreateJournalLabel_oldeValue}" for="oldeValue" />
+                        <p:inputText id="oldeValue" value="#{journalController.selected.oldeValue}" title="#{bundle.CreateJournalTitle_oldeValue}" />
+                        <p:outputLabel value="#{bundle.CreateJournalLabel_newValue}" for="newValue" />
+                        <p:inputText id="newValue" value="#{journalController.selected.newValue}" title="#{bundle.CreateJournalTitle_newValue}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{journalController.create}" value="#{bundle.Save}" update="display,:JournalListForm:datalist,:growl" oncomplete="handleSubmit(args,'JournalCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="JournalCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LocaleEditDlg" widgetVar="LocaleEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditLocaleTitle}">
+            <h:form id="LocaleEditForm">
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" cellpadding="2" cellspacing="6" >
+                        <p:outputLabel value="Gerant:" for="gerant" />
+                        <h:panelGroup>
+                            <p:commandButton style="height: 25px !important" icon="ui-icon-search" actionListener="#{localeController.lookUpGerant(-1)}" update=":growl"/>
+                            <p:inputText id="gerant"  value="#{localeController.gerantId}" />
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Proprietaire:" for="proprietaire" />
+                        <h:panelGroup>
+                            <p:commandButton style="height: 25px !important" icon="ui-icon-search" actionListener="#{localeController.lookUpProprietaire(-1)}" update=":growl"/>
+                            <p:inputText id="proprietaire" value="#{localeController.proprieteId}"   />
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Commune" for="commune" />
+                        <p:selectOneMenu id="commune"   value="#{localeController.thisCommun}" >
+                            <p:ajax listener="#{localeController.secteureByCommun()}"  update="secteure,quartier,rue,cmpAdr" />
+                            <f:selectItem itemLabel="--select--" itemValue="" noSelectionOption="true"></f:selectItem>
+                            <f:selectItems value="#{localeController.communesAvailableSelectOne}"  var="itemComm" itemValue="#{itemComm}" itemLabel="#{itemComm.name}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Secteure" for="secteure" />
+                        <p:selectOneMenu   id="secteure"   value="#{localeController.thisSecteur}" >
+                            <f:selectItem itemLabel="--select--" itemValue="#{null}" noSelectionOption="true"></f:selectItem>
+                            <f:selectItems value="#{localeController.thisCommun.secteurs}"  var="itemSecteur" itemValue="#{itemSecteur}" itemLabel="#{itemSecteur.name}"/>
+                            <p:ajax listener="#{localeController.quartierBySecteure()}"  update="quartier,rue,cmpAdr"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Quartier" for="quartier" />
+                        <p:selectOneMenu id="quartier"  value="#{localeController.thisQyartie}" >
+                            <f:selectItem itemLabel="--select--" itemValue="#{null}" noSelectionOption="true"></f:selectItem>
+                            <f:selectItems value="#{localeController.thisSecteur.quartiers}" var="itemQuartie" itemValue="#{itemQuartie}" itemLabel="#{itemQuartie.name}" />
+                            <p:ajax listener="#{localeController.rueByQuartier()}"  update="rue,cmpAdr"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditLocaleLabel_rue}" for="rue" />
+                        <p:selectOneMenu id="rue" value="#{localeController.selected.rue}" >
+                            <f:selectItem itemLabel="--select--" itemValue="#{null}" noSelectionOption="true"></f:selectItem>
+                            <f:selectItems value="#{localeController.thisQyartie.rues}" var="itemRue"  itemValue="#{itemRue}" itemLabel="#{itemRue.name}"/>
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditLocaleLabel_complementAdress}" for="cmpAdr" />
+                        <p:inputText id="cmpAdr" value="#{localeController.selected.complementAdress}" title="#{bundle.EditLocaleTitle_complementAdress}" />
+
+                        <p:outputLabel value="#{bundle.EditLocaleLabel_typeLocal}" for="typeLocal" />
+                        <p:selectOneMenu id="typeLocal" value="#{localeController.selected.typeLocal}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{activiteController.itemsAvailableSelectOne}"
+                                           var="typeLocalItem"
+                                           itemValue="#{typeLocalItem.nom}"/>
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{localeController.update}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args, 'LocaleEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" actionListener="#{localeController.setSelected(null)}" onclick="LocaleEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

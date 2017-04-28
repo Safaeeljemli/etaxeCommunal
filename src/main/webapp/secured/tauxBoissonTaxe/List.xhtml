@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="../template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTauxBoissonTaxeTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="TauxBoissonTaxeListForm">
+                <p:panel header="#{bundle.ListTauxBoissonTaxeTitle}">
+                    <p:dataTable id="datalist" value="#{tauxBoissonTaxeController.items}" var="item" 
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="5,10,15"
+                                 >
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Activity"/>
+                            </f:facet>
+                            <h:outputText value="#{item.activite.nom}"/>
+                        </p:column>
+                        <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListTauxBoissonTaxeTitle_taux}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.taux}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Options"/>
+                            </f:facet>
+                            <p:commandButton  class="OptionButton" id="viewButton"   icon="ui-icon-search" actionListener="#{tauxBoissonTaxeController.selected(item)}" update=":TauxBoissonTaxeViewForm" oncomplete="PF('TauxBoissonTaxeViewDialog').show()" />
+                            <p:commandButton  class="OptionButton" id="editButton"   icon="ui-icon-pencil" actionListener="#{tauxBoissonTaxeController.selected(item)}"  update=":TauxBoissonTaxeEditForm" oncomplete="PF('TauxBoissonTaxeEditDialog').show()" />
+                            <p:commandButton class="OptionButton" id="deleteButton" icon="ui-icon-trash"   actionListener="#{tauxBoissonTaxeController.destroy(item)}" update=":growl,datalist" />
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tauxBoissonTaxeController.prepareCreate}" update=":TauxBoissonTaxeCreateForm" oncomplete="PF('TauxBoissonTaxeCreateDialog').show()"/>
+
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+                        <ui:include src="Create.xhtml"/>
+                        <ui:include src="Edit.xhtml"/>
+                        <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

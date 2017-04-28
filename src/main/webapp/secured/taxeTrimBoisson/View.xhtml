@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TaxeTrimBoissonViewDlg" widgetVar="TaxeTrimBoissonViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTaxeTrimBoissonTitle}">
+            <h:form id="TaxeTrimBoissonViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{taxeTrimBoissonController.anItem != null}">
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_id}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.id}" title="#{bundle.ViewTaxeTrimBoissonTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_chiffreAffaireTTC}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.chiffreAffaireTTC}" title="#{bundle.ViewTaxeTrimBoissonTitle_chiffreAffaireTTC}"/>
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_montantTotalTaxe}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.montantTotalTaxe}" title="#{bundle.ViewTaxeTrimBoissonTitle_montantTotalTaxe}"/>
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_montantTotalRetard}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.montantTotalRetard}" title="#{bundle.ViewTaxeTrimBoissonTitle_montantTotalRetard}"/>
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_montantRetardPremierMois}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.montantRetardPremierMois}" title="#{bundle.ViewTaxeTrimBoissonTitle_montantRetardPremierMois}"/>
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_montantRetardAutreMois}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.montantRetardAutreMois}" title="#{bundle.ViewTaxeTrimBoissonTitle_montantRetardAutreMois}"/>
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_numeroTrim}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.numeroTrim}" title="#{bundle.ViewTaxeTrimBoissonTitle_numeroTrim}"/>
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_chiffreAffaireHT}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.chiffreAffaireHT}" title="#{bundle.ViewTaxeTrimBoissonTitle_chiffreAffaireHT}"/>
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_user}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.user.login}" title="#{bundle.ViewTaxeTrimBoissonTitle_user}"/>
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_taxeAnnuelBoisson}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.taxeAnnuelBoisson}" title="#{bundle.ViewTaxeTrimBoissonTitle_taxeAnnuelBoisson}"/>
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_redevable}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.redevable.cin!=null?taxeTrimBoissonController.anItem.redevable.cin:taxeTrimBoissonController.anItem.redevable.rc}" title="#{bundle.ViewTaxeTrimBoissonTitle_redevable}"/>
+                        <h:outputText value="#{bundle.ViewTaxeTrimBoissonLabel_local}"/>
+                        <h:outputText value="#{taxeTrimBoissonController.anItem.local.nom}" title="#{bundle.ViewTaxeTrimBoissonTitle_local}"/>
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TaxeTrimBoissonViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

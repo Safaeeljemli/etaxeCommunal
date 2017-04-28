@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="../template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTaxeTrimBoissonTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="TaxeTrimBoissonListForm">
+                <p:panel header="#{bundle.ListTaxeTrimBoissonTitle}">
+                    <p:dataTable id="datalist" value="#{taxeTrimBoissonController.items}" var="item"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTaxeTrimBoissonTitle_chiffreAffaireHT}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.chiffreAffaireHT}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="MontantNormal"/>
+                            </f:facet>
+                            <h:outputText value="#{item.montantTaxe}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTaxeTrimBoissonTitle_montantTotalRetard}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.montantTotalRetard}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTaxeTrimBoissonTitle_montantTotalTaxe}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.montantTotalTaxe}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Annee"/>
+                            </f:facet>
+                            <h:outputText value="#{item.taxeYear.year}">
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTaxeTrimBoissonTitle_numeroTrim}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.numeroTrim}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Date Paiment"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateActuel}">
+                                <f:converter converterId="dateAttributeConverter"></f:converter>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTaxeTrimBoissonTitle_redevable}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.redevable.cin!=null?item.redevable.cin:item.redevable.rc}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTaxeTrimBoissonTitle_local}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.local.nom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Options"/>
+                            </f:facet>
+                            <p:commandButton style="width: 50px !important;" actionListener="#{taxeTrimBoissonController.setAnItem(item)}" id="viewButton" class="btn btn-info"  icon="ui-icon-search" update=":TaxeTrimBoissonViewForm" oncomplete="PF('TaxeTrimBoissonViewDialog').show()" />
+                            <p:commandButton style="width: 50px !important;" actionListener="#{taxeTrimBoissonController.setAnItem(item)}" id="pdfButton" class="btn btn-info"  icon="fa fa-file-pdf-o" update=":TaxeTrimBoissonViewForm" oncomplete="PF('TaxeTrimBoissonViewDialog').show()" />
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton class="btn btn-success" id="createButton" icon="fa fa-floppy-o"   value="#{bundle.Create}" actionListener="#{taxeTrimBoissonController.prepareCreate}" update=":TaxeTrimBoissonCreateForm" oncomplete="PF('TaxeTrimBoissonCreateDialog').show()"/>
+                            <p:commandButton  class="btn btn-success" id="sumulateButton" icon="fa fa-refresh"   value="simuler" actionListener="#{taxeTrimBoissonController.prepareCreate}" update=":TaxeTrimBoissonSimilationForm" oncomplete="PF('TaxeTrimBoissonSimilationDialog').show()"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+            <ui:include src="Simuler.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

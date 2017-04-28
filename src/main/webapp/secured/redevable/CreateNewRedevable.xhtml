@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!--Fin ghatktbi l code dyalk ghadi tl9ayh lt7t -->
+
+    <ui:composition template="../template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Create" />
+        </ui:define>
+        <f:metadata>
+            <f:viewAction action="#{redevableController.prepareCreate()}" />
+            <f:viewAction  action="#{localeController.prepareCreate()}" />
+        </f:metadata>
+
+        <ui:define name="body">
+            <!-- tab view hya lli kat3tina ndiro jouj dyal les view f page w7da -->
+            <p:tabView>
+                <!--<br/>-->
+                <!--
+                *
+                *hadi tab lwla dyal l redevable
+                *
+                -->
+                <p:tab  title="#{bundle.TableViewRedevable}"  > 
+                    <!--
+                    *
+                    *form lwal dyal l Propritaire
+                    *
+                    -->
+                    <div class="ui-grid ui-grid-responsive">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-1"></div>
+                            <div class="ui-grid-col-4">
+                                <h:form id="createPropritaireForm">
+                                    <!--<h1><h:outputText value="#{bundle.Propritaire}"/></h1>-->
+                                    <p:fieldset legend="#{bundle.Propritaire}">
+                                        <h:panelGrid id="propritairePanel" columns="2" cellpadding="6" >
+
+                                            <p:outputLabel value="#{bundle.NatureDuPropritaire}:" for="naturePropritaire" />
+                                            <p:selectOneMenu required="true" id="naturePropritaire" value="#{redevableController.natureDuPropritaire}" title="Nature" >
+                                                <f:selectItem itemValue="-1" itemLabel="#{bundle.natureRedevableChoice}"></f:selectItem>
+                                                <f:selectItem  itemValue="1" itemLabel="#{bundle.Personnephysique}"></f:selectItem>
+                                                <f:selectItem itemValue="2" itemLabel="#{bundle.Entreprise}"></f:selectItem>
+                                                <!--balise ajax bach naffichiw CIN ola RC 3la7sab wach entreprise ola personne
+                                                event si change will be executed here (@this) et il va redre (afficher ) la 
+                                                balise avec le id de propritairePanel-->
+                                                <f:ajax event="change" execute="@this" render="propritairePanel" />
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel rendered="#{redevableController.natureDuPropritaire eq 1}" value="Cin:" for="cin" />
+                                            <h:panelGroup rendered="#{redevableController.natureDuPropritaire eq 1}">
+                                                <p:commandButton style="height: 25px !important" rendered="#{redevableController.natureDuPropritaire eq 1}" icon="ui-icon-search" actionListener="#{redevableController.lookUpCin(redevableController.selected)}" update="saveButton,cin,:growlForm"   />
+                                                <p:inputText id="cin"  required="true" rendered="#{redevableController.natureDuPropritaire eq 1}"  disabled="#{redevableController.desabalepropCin}" value="#{redevableController.selected.cin}" title="Cin" />
+                                            </h:panelGroup>
+
+                                            <p:outputLabel rendered="#{redevableController.natureDuPropritaire eq 2}" value="Rc:" for="rc" />
+                                            <h:panelGroup rendered="#{redevableController.natureDuPropritaire eq 2}">
+                                                <p:commandButton style="height: 25px !important"  rendered="#{redevableController.natureDuPropritaire eq 2}"  icon="ui-icon-search" actionListener="#{redevableController.lookUpRc(redevableController.selected)}"  update="saveButton,rc,:growlForm" />
+                                                <p:inputText id="rc" required="true" rendered="#{redevableController.natureDuPropritaire eq 2}" disabled="#{redevableController.desabalePropRc}"  value="#{redevableController.selected.rc}" title="Rc"/>
+                                            </h:panelGroup>
+
+                                            <p:outputLabel value="Nom:" for="nom" />
+                                            <p:inputText id="nom" value="#{redevableController.selected.nom}" title="Nom" validatorMessage="Le nom doit contenire que des Lesttres" >
+                                                <f:validateRegex pattern="[A-Za-z ]*" />
+                                            </p:inputText>
+
+                                            <p:outputLabel rendered="#{redevableController.natureDuPropritaire eq 1}" value="Prenom:" for="prenom" />
+                                            <p:inputText  rendered="#{redevableController.natureDuPropritaire eq 1}" id="prenom" value="#{redevableController.selected.prenom}" title="Prenom" validatorMessage="Le prenom doit contenire que des Lesttres">
+                                                <f:validateRegex pattern="[A-Za-z ]*" />
+                                            </p:inputText>
+
+                                            <p:outputLabel value="Mail:" for="mail" />
+                                            <p:inputText    id="mail" value="#{redevableController.selected.mail}" title="Mail" >
+                                            </p:inputText>
+
+                                            <p:outputLabel value="DateDeCommencement:" for="dateDeCommencement" />
+                                            <p:calendar  id="dateDeCommencement" value="#{redevableController.selected.dateDeCommencement}" title="DateDeCommencement" navigator="true" pattern="dd/MM/yyyy">
+                                                <f:converter converterId="dateAttributeConverter"/>
+                                            </p:calendar>
+
+
+                                        </h:panelGrid>
+                                        <p:commandButton id="saveButton" disabled="#{redevableController.desabalePropritaireSave}"  actionListener="#{redevableController.create(redevableController.selected,redevableController.natureDuPropritaire)}" update=":growlForm,createPropritaireForm" value="#{bundle.Save}" icon="ui-icon-disk"   />
+                                        <p:commandButton  actionListener="#{redevableController.cancelCreation(2)}" 
+                                                          update=":growlForm,createPropritaireForm" value="#{bundle.Cancel}" icon="ui-icon-closethick"   />
+                                    </p:fieldset>
+                                </h:form>
+                            </div>
+                            <div class="ui-grid-col-1">
+                                <!--
+                                *
+                                *form lwal dyal l Gerant
+                                *
+                                -->
+                            </div>
+                            <div class="ui-grid-col-4">
+                                <h:form id="createGerantForm">
+                                    <!--<h1><h:outputText value="#{bundle.Gerant}"/></h1>-->
+                                    <p:fieldset legend="#{bundle.Gerant}">
+                                        <h:panelGrid id="gerantPanel" columns="2" cellpadding="6" >
+
+                                            <p:outputLabel value="#{bundle.NatureDuGerant}:" for="natureGerant" />
+                                            <p:selectOneMenu required="true" id='natureGerant' value="#{redevableController.natureDuGerant}"  title="Nature" >
+                                                <f:selectItem itemValue="-1" itemLabel="#{bundle.natureRedevableChoice}"></f:selectItem>
+                                                <f:selectItem itemValue="1" itemLabel="#{bundle.Personnephysique}"></f:selectItem>
+                                                <f:selectItem itemValue="2" itemLabel="#{bundle.Entreprise}"></f:selectItem>
+                                                <f:ajax event="change" execute="@this" render="gerantPanel" />
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel rendered="#{redevableController.natureDuGerant eq 1}" value="Cin:" for="cin" />
+                                            <h:panelGroup rendered="#{redevableController.natureDuGerant eq 1}">
+                                                <p:commandButton style="height: 25px !important" rendered="#{redevableController.natureDuGerant eq 1}"  icon="ui-icon-search"  actionListener="#{redevableController.lookUpCin(redevableController.gerant)}" update="saveButton,cin,:growlForm"/>
+                                                <p:inputText id="cin" required="true" rendered="#{redevableController.natureDuGerant eq 1}" disabled="#{redevableController.desabaleGerantCin}" value="#{redevableController.gerant.cin}" title="Cin" />
+                                            </h:panelGroup>
+
+                                            <p:outputLabel rendered="#{redevableController.natureDuGerant eq 2}"  value="Rc:" for="rc" />
+                                            <h:panelGroup  rendered="#{redevableController.natureDuGerant eq 2}" >
+                                                <p:commandButton style="height: 25px !important"  rendered="#{redevableController.natureDuGerant eq 2}"  icon="ui-icon-search"  actionListener="#{redevableController.lookUpRc(redevableController.gerant)}" update="saveButton,rc,:growlForm"/>
+                                                <p:inputText id="rc" required="true" disabled="#{redevableController.desabaleGerantRc}"  rendered="#{redevableController.natureDuGerant eq 2}" value="#{redevableController.gerant.rc}" title="Rc" />
+                                            </h:panelGroup>
+
+                                            <p:outputLabel value="Nom:" for="nom" />
+                                            <p:inputText  rendered="#{redevableController.natureDuGerant eq 1}" id="nom" value="#{redevableController.gerant.nom}" title="Nom" validatorMessage="Le nom doit contenire que des Lesttres" >
+                                                <f:validateRegex pattern="[A-Za-z ]*" />
+                                            </p:inputText>
+
+                                            <p:outputLabel  rendered="#{redevableController.natureDuGerant eq 1}"   value="Prenom:" for="prenom" />
+                                            <p:inputText  id="prenom" value="#{redevableController.gerant.prenom}" title="Prenom" validatorMessage="Le prenom doit contenire que des Lesttres" >
+                                                <f:validateRegex pattern="[A-Za-z ]*" />
+                                            </p:inputText>
+
+                                            <p:outputLabel value="Mail:" for="mail" />
+                                            <p:inputText id="mail" value="#{redevableController.gerant.mail}" title="Mail"  >
+                                            </p:inputText>
+
+                                            <p:outputLabel value="DateDeCommencement:" for="dateDeCommencement" />
+                                            <p:calendar id="dateDeCommencement" value="#{redevableController.gerant.dateDeCommencement}" title="DateDeCommencement" pattern="dd/MM/yyyy" >
+                                                <f:converter converterId="dateAttributeConverter"/>
+                                            </p:calendar>
+
+                                        </h:panelGrid>
+                                        <p:commandButton  id="saveButton" disabled="#{redevableController.desabaleGerantSave}"   actionListener="#{redevableController.create(redevableController.gerant,redevableController.natureDuGerant)}" update=":growlForm,createGerantForm" value="#{bundle.Save}" icon="ui-icon-disk"  ></p:commandButton>
+                                        <p:commandButton  actionListener="#{redevableController.cancelCreation(1)}" update=":growlForm,createGerantForm" value="#{bundle.Cancel}" icon="ui-icon-closethick"   />
+                                    </p:fieldset>
+                                </h:form>
+                            </div>
+                            <div class="ui-grid-col-1"></div>
+                        </div>
+                    </div>
+                </p:tab>
+
+
+                <!--
+                *
+                *hadi tab  dyal l LOCAL
+                *
+                -->
+                <p:tab  title="#{bundle.TableViewLocal}">
+                    <!--hanane ktbi lformulaire dyal local fhad lblasa -->
+                                <h:form id="localeCreateForm">
+                                    <p:fieldset legend="#{bundle.CreateLocaleTitle}">
+                                        <h:panelGrid columns="2" cellspacing="15">
+                                            <p:outputLabel value="Gerant:" for="gerant" />
+                                            <h:panelGroup>
+                                                <p:commandButton style="height: 25px !important" icon="ui-icon-search" actionListener="#{localeController.lookUpGerant(1)}" update="saveButton,gerant,:growlForm"/>
+                                                <p:inputText disabled="#{localeController.desabaleGerant}" id="gerant"  value="#{localeController.gerantId}" />
+                                            </h:panelGroup>
+
+                                            <p:outputLabel value="Proprietaire:" for="proprietaire" />
+                                            <h:panelGroup>
+                                                <p:commandButton style="height: 25px !important" icon="ui-icon-search" actionListener="#{localeController.lookUpProprietaire(1)}" update="saveButton,proprietaire,:growlForm"/>
+                                                <p:inputText disabled="#{localeController.desabaleProp}" id="proprietaire" value="#{localeController.proprieteId}"   />
+                                            </h:panelGroup>
+
+                                        </h:panelGrid>
+
+                                        <p:separator ></p:separator>
+                                        <div class="ui-grid">
+                                            <div class="ui-grid-row">
+                                                <div class="ui-grid-col-1"></div>
+                                                <h:panelGrid columns="6" cellpadding="4" cellspacing="15">
+                                                    <p:outputLabel value="#{bundle.CreateLocaleLabel_nom}" for="nom" />
+                                                    <p:inputText id="nom"  value="#{localeController.selected.nom}" title="#{bundle.CreateLocaleTitle_nom}" >
+                                                        <f:validateLength  maximum="30"></f:validateLength>
+                                                    </p:inputText>
+
+                                                    <p:outputLabel value="TypeLocal:" for="typeLocal" />
+                                                    <p:selectOneMenu  id="typeLocal" value="#{localeController.selected.typeLocal}" >
+                                                        <f:selectItem itemValue="#{null}" itemLabel="--SELECT--" />
+                                                        <f:selectItems value="#{activiteController.itemsAvailableSelectOne}" var="itemActivite" itemValue="#{itemActivite}" itemLabel="#{itemActivite.nom}"/>
+                                                    </p:selectOneMenu>
+
+                                                    <p:outputLabel value="Commune:" for="commune" />
+                                                    <p:selectOneMenu id="commune"   value="#{localeController.thisCommun}" >
+                                                        <!-- TODO: update below reference to list of available items-->
+                                                        <f:selectItem itemLabel="--select--" itemValue=""></f:selectItem>
+                                                        <f:selectItems value="#{localeController.communesAvailableSelectOne}" var="itemComm" itemValue="#{itemComm}" itemLabel="#{itemComm.name}"/>
+                                                        <p:ajax listener="#{localeController.secteureByCommun()}"  update="secteure,quartier,rue" ></p:ajax>
+                                                    </p:selectOneMenu>
+
+                                                    <p:outputLabel value="Secteure:" for="secteure" />
+                                                    <p:selectOneMenu   id="secteure"   value="#{localeController.thisSecteur}" >
+                                                        <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
+                                                        <f:selectItems value="#{localeController.thisCommun.secteurs}"  var="itemSecteur" itemValue="#{itemSecteur}" itemLabel="#{itemSecteur.name}"/>
+                                                        <p:ajax listener="#{localeController.quartierBySecteure()}"  update="quartier"></p:ajax>
+                                                    </p:selectOneMenu>
+
+                                                    <p:outputLabel value="Quartier:" for="quartier" />
+                                                    <p:selectOneMenu id="quartier"  value="#{localeController.thisQyartie}" >
+                                                        <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
+                                                        <f:selectItems value="#{localeController.thisSecteur.quartiers}" var="itemQuartie" itemValue="#{itemQuartie}" itemLabel="#{itemQuartie.name}" />
+                                                        <p:ajax listener="#{localeController.rueByQuartier()}"  update="rue"></p:ajax>
+                                                    </p:selectOneMenu>
+
+                                                    <p:outputLabel value="Rue:" for="rue" />
+                                                    <p:selectOneMenu id="rue" value="#{localeController.selected.rue}" >
+                                                        <f:selectItem itemLabel="--select--" itemValue="#{null}"></f:selectItem>
+                                                        <f:selectItems value="#{localeController.thisQyartie.rues}" var="itemRue"  itemValue="#{itemRue}" itemLabel="#{itemRue.name}"/>
+                                                    </p:selectOneMenu>
+
+                                                    <p:outputLabel value="ComplementAdress:" for="complementAdress" />
+                                                    <p:inputText id="complementAdress" value="#{localeController.selected.complementAdress}"  title="ComplementAdress" />
+                                                    
+                                                    <p:outputLabel value="Add Position" for="position" />
+                                                    <p:commandButton disabled="#{localeController.desabeledPosition}"  id="position" icon="fa fa-map-marker"  action="#{localeController.toAddPosition()}" />
+
+
+                                                </h:panelGrid>
+                                            </div>
+                                            <div class="ui-grid-row">
+                                                <div class="ui-grid-col-5"></div>
+                                                <p:commandButton disabled="#{localeController.desabaleSave}" id="saveButton" style="margin: 10px" value="#{bundle.Save}" actionListener="#{localeController.saveLocal()}" update="localeCreateForm,:growl"   />
+                                                <p:commandButton style="margin: 10px" value="#{bundle.Cancel}" actionListener="#{localeController.cancelCreation()}" update="localeCreateForm" ></p:commandButton>
+                                                <div class="ui-grid-col-5"></div>
+                                            </div>
+                                        </div>
+                                    </p:fieldset>
+                                </h:form>
+                            
+                    <!--la fin d formulaire d local -->
+                </p:tab>
+            </p:tabView>
+            <!--<ui:include src="RedevablePropertiesList.xhtml"/>-->
+        </ui:define>
+    </ui:composition>   
+
+</html>
+

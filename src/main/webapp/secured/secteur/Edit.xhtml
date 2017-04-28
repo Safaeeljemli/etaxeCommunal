@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SecteurEditDlg" widgetVar="SecteurEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditSecteurTitle}">
+            <h:form id="SecteurEditForm">
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" cellpadding="2" cellspacing="6" >
+                        <p:outputLabel value="#{bundle.EditSecteurLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{secteurController.selected.name}" title="#{bundle.EditSecteurTitle_name}" />
+                        <p:outputLabel value="#{bundle.EditSecteurLabel_commune}" for="commune" />
+                        <p:selectOneMenu id="commune" value="#{secteurController.selected.commune}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{communeController.itemsAvailableSelectOne}"
+                                           var="communeItem"
+                                           itemValue="#{communeItem}"
+                                           itemLabel="#{communeItem.name}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{secteurController.update}" value="#{bundle.Save}" update="display,:SecteurListForm:datalist,:growl" oncomplete="handleSubmit(args, 'SecteurEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" actionListener="#{secteurController.setSelected(null)}" onclick="SecteurEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

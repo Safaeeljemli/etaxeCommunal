@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LocaleViewDlg" widgetVar="LocaleViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewLocaleTitle}">
+            <h:form id="LocaleViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" >
+                        <h:outputText value="N°"/>
+                        <h:outputText value="#{localeController.selected.id}" title="#{bundle.ViewLocaleTitle_id}"/>
+                        
+                        <h:outputText value="Nom"/>
+                        <h:outputText value="#{localeController.selected.nom}" title="Nom"/>
+                        
+                        <h:outputText value="#{bundle.ViewLocaleLabel_typeLocal}"/>
+                        <h:outputText value="#{localeController.selected.typeLocal.nom}" title="#{bundle.ViewLocaleTitle_typeLocal}"/>
+                        
+                        <h:outputText value="Quartier"/>
+                        <h:outputText value="#{localeController.selected.rue.quartier.name}" title="Quartier"/>
+                        
+                        <h:outputText value="Rue"/>
+                        <h:outputText value="#{localeController.selected.rue.name}" title="#{bundle.ViewLocaleTitle_rue}"/>
+                        
+                        <h:outputText value="Complement Adress"/>
+                        <h:outputText value="#{localeController.selected.complementAdress}" title="#{bundle.ViewLocaleTitle_complementAdress}"/>
+                        
+                        <h:outputText value="Gerant"/>
+                        <h:outputText value="#{localeController.selected.gerant.cin!=null?localeController.selected.gerant.cin:localeController.selected.gerant.rc!=null?localeController.selected.gerant.rc:'non'}" title="#{bundle.ViewLocaleTitle_gerant}"/>
+                        <h:outputText value="Propritaire"/>
+                        <h:outputText value="#{localeController.selected.propriete.cin!=null?localeController.selected.propriete.cin:localeController.selected.propriete.rc!=null?localeController.selected.propriete.rc:'non'}" title="#{bundle.ViewLocaleTitle_propriete}"/>
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" actionListener="#{localeController.setSelected(null)}" onclick="LocaleViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

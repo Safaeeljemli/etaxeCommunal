@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TaxeAnnuelBoissonCreateDlg" widgetVar="TaxeAnnuelBoissonCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTaxeAnnuelBoissonTitle}">
+            <h:form id="TaxeAnnuelBoissonCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{taxeAnnuelBoissonController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTaxeAnnuelBoissonLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{taxeAnnuelBoissonController.selected.id}" title="#{bundle.CreateTaxeAnnuelBoissonTitle_id}" />
+                        <p:outputLabel value="#{bundle.CreateTaxeAnnuelBoissonLabel_locale}" for="locale" />
+                        <p:selectOneMenu id="locale" value="#{taxeAnnuelBoissonController.selected.locale}" >
+                            <f:selectItems value="#{localeController.itemsAvailableSelectOne}"
+                                           var="localeItem"
+                                           itemValue="#{localeItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTaxeAnnuelBoissonLabel_redevable}" for="redevable" />
+                        <p:selectOneMenu id="redevable" value="#{taxeAnnuelBoissonController.selected.redevable}" >
+                            <f:selectItems value="#{redevableController.itemsAvailableSelectOne}"
+                                           var="redevableItem"
+                                           itemValue="#{redevableItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{taxeAnnuelBoissonController.create}" value="#{bundle.Save}" update="display,:TaxeAnnuelBoissonListForm:datalist,:growl" oncomplete="handleSubmit(args,'TaxeAnnuelBoissonCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TaxeAnnuelBoissonCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="../template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListLocaleTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="LocalListForm">
+                <p:panel header="#{bundle.ListLocaleTitle}">
+                    <p:dataTable id="datalist" value="#{localeController.itemsAvailableSelectOne}" var="item"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nom"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nom}"/>
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="TypeLocal"/>
+                            </f:facet>
+                            <h:outputText value="#{item.typeLocal}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Gerant"/>
+                            </f:facet>
+                            <h:outputText value="#{item.gerant.cin!=null?item.gerant.cin:item.gerant.rc!=null?item.gerant.rc:'non'}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Proprietere"/>
+                            </f:facet>
+                            <h:outputText value="#{item.propriete.cin!=null?item.propriete.cin:item.propriete.rc!=null?item.propriete.rc:'non'}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Rue"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rue}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Options"/>
+                            </f:facet>
+                            <p:commandButton class="OptionButton" id="viewButton"   icon="ui-icon-search" actionListener="#{localeController.setSelected(item)}" update=":LocaleViewForm" oncomplete="PF('LocaleViewDialog').show()"/>
+                            <p:commandButton class="OptionButton" id="editButton"   icon="ui-icon-pencil" actionListener="#{localeController.setSelected(item)}" update=":LocaleEditForm" oncomplete="PF('LocaleEditDialog').show()" />
+                            <p:commandButton class="OptionButton" id="deleteButton" icon="ui-icon-trash" actionListener="#{localeController.destroy(item)}" update=":growl,datalist" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

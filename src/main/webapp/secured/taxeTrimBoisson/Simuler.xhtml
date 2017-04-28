@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TaxeTrimBoissonSimilationDlg" widgetVar="TaxeTrimBoissonSimilationDialog" position="center" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTaxeTrimBoissonTitle}">
+            <h:form id="TaxeTrimBoissonSimilationForm">
+
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" cellpadding="2" cellspacing="6" >
+                        <p:outputLabel value="#{bundle.Propritaire}" for="propritaire" />
+                        <h:panelGroup >
+                            <p:commandButton style="height: 25px !important" actionListener="#{taxeTrimBoissonController.findLocals(2,taxeTrimBoissonController.anItem)}" icon="ui-icon-search"  update=":growl,TaxeTrimBoissonSimilationForm"   />
+                            <p:inputText  id="propritaire" value="#{taxeTrimBoissonController.propCode}" />
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="#{bundle.Gerant}" for="gerant" />
+                        <h:panelGroup >
+                            <p:commandButton style="height: 25px !important" actionListener="#{taxeTrimBoissonController.findLocals(1,taxeTrimBoissonController.anItem)}" icon="ui-icon-search"  update=":growl,TaxeTrimBoissonSimilationForm"   />
+                            <p:inputText  id="gerant" value="#{taxeTrimBoissonController.gerantCode}" />
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateTaxeTrimBoissonLabel_local}" for="local" />
+                        <p:selectOneMenu id="local" value="#{taxeTrimBoissonController.anItem.local}">
+                            <f:selectItem itemLabel="#{bundle.Select}" itemValue=""/>
+                            <f:selectItems value="#{taxeTrimBoissonController.localsAvailable}"
+                                           var="localItem"
+                                           itemValue="#{localItem}"
+                                           itemLabel="#{localItem.nom}"/>
+                            <p:ajax update="tva" ></p:ajax>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel rendered="#{taxeTrimBoissonController.renderYear}" value="annee" for="year" />
+                        <p:inputText rendered="#{taxeTrimBoissonController.renderYear}" id="year" value="#{taxeTrimBoissonController.anItem.taxeYear}" >
+                            <f:converter converterId="yearAttributeConverter"/>
+                        </p:inputText>
+
+
+                        <p:outputLabel value="#{bundle.CreateTaxeTrimBoissonLabel_numeroTrim}" for="numeroTrim" />
+                        <p:selectOneMenu id="numeroTrim" value="#{taxeTrimBoissonController.anItem.numeroTrim}" title="#{bundle.CreateTaxeTrimBoissonTitle_numeroTrim}" >
+                            <f:selectItem itemLabel="1" itemValue="1"/>
+                            <f:selectItem itemLabel="2" itemValue="2"/>
+                            <f:selectItem itemLabel="3" itemValue="3"/>
+                            <f:selectItem itemLabel="4" itemValue="4"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateTaxeTrimBoissonLabel_chiffreAffaireTTC}" for="chiffreAffaireTTC" />
+                        <h:panelGroup >
+                            <p:commandButton style="height: 25px !important" actionListener="#{taxeTrimBoissonController.calculateChiffreAffaireHT(taxeTrimBoissonController.anItem)}" icon="ui-icon-search"  update=":growlForm,chiffreAffaireHT"   />
+                            <p:inputText id="chiffreAffaireTTC" value="#{taxeTrimBoissonController.anItem.chiffreAffaireTTC}" title="#{bundle.CreateTaxeTrimBoissonTitle_chiffreAffaireTTC}" />
+                        </h:panelGroup> 
+                        
+                        <p:outputLabel value="TVA" />
+                        <p:outputLabel id="tva"  value="#{taxeTrimBoissonController.anItem.local.typeLocal.tva}" />
+
+                        <p:outputLabel value="#{bundle.CreateTaxeTrimBoissonLabel_chiffreAffaireHT}" for="chiffreAffaireHT" /> 
+                        <h:panelGroup >
+                            <p:commandButton style="height: 25px !important" actionListener="#{taxeTrimBoissonController.calculateChiffreAffaireTTC(taxeTrimBoissonController.anItem)}"  icon="ui-icon-search"  update=":growlForm,chiffreAffaireTTC"   />
+                            <p:inputText id="chiffreAffaireHT" value="#{taxeTrimBoissonController.anItem.chiffreAffaireHT}" title="#{bundle.CreateTaxeTrimBoissonTitle_chiffreAffaireHT}" />
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <p:commandButton action="#{taxeTrimBoissonController.simuler()}" value="Simuler" update=":TaxeTrimBoissonViewForm" oncomplete="PF('TaxeTrimBoissonViewDialog').show()"/>
+                    <p:commandButton value="#{bundle.Cancel}" action="#{taxeTrimBoissonController.cancel()}" onclick="TaxeTrimBoissonSimilationDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+        </p:dialog>
+        
+    </ui:composition>
+</html>

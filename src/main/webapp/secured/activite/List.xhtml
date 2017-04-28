@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="../template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListActiviteTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="ActiviteListForm">
+                <p:panel header="#{bundle.ListActiviteTitle}">
+                    <p:dataTable id="datalist" value="#{activiteController.items}" var="item"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="5,10,15"
+                                 >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListActiviteTitle_nom}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListActiviteTitle_tva}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tva}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Options"/>
+                            </f:facet>
+                            <!--<p:commandButton id="viewButton"   icon="ui-icon-search" actionListener="#{activiteController.setSelected(item)}"  update=":ActiviteViewForm" oncomplete="PF('ActiviteViewDialog').show()" />-->
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" actionListener="#{activiteController.setSelected(item)}" update=":ActiviteEditForm" oncomplete="PF('ActiviteEditDialog').show()" />
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash" actionListener="#{activiteController.destroy(item)}" update=":growl,datalist" />
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{activiteController.prepareCreate}" update=":ActiviteCreateForm" oncomplete="PF('ActiviteCreateDialog').show()"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <!--<ui:include src="View.xhtml"/>-->
+        </ui:define>
+    </ui:composition>
+
+</html>

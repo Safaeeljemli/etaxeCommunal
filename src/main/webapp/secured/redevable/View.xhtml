@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RedevableViewDlg" widgetVar="RedevableViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewRedevableTitle}">
+            <h:form id="RedevableViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{redevableController.selected != null}">
+                        <h:outputText value="#{bundle.ViewRedevableLabel_cin}"/>
+                        <h:outputText value="#{redevableController.selected.cin}" title="#{bundle.ViewRedevableTitle_cin}"/>
+                        <h:outputText value="#{bundle.ViewRedevableLabel_rc}"/>
+                        <h:outputText value="#{redevableController.selected.rc}" title="#{bundle.ViewRedevableTitle_rc}"/>
+                        <h:outputText value="#{bundle.ViewRedevableLabel_nom}"/>
+                        <h:outputText value="#{redevableController.selected.nom}" title="#{bundle.ViewRedevableTitle_nom}"/>
+                        <h:outputText value="#{bundle.ViewRedevableLabel_prenom}"/>
+                        <h:outputText value="#{redevableController.selected.prenom}" title="#{bundle.ViewRedevableTitle_prenom}"/>
+                        <h:outputText value="#{bundle.ViewRedevableLabel_nature}"/>
+                        <h:outputText value="#{redevableController.selected.nature}" title="#{bundle.ViewRedevableTitle_nature}"/>
+                        <h:outputText value="#{bundle.ViewRedevableLabel_mail}"/>
+                        <h:outputText value="#{redevableController.selected.mail}" title="#{bundle.ViewRedevableTitle_mail}"/>
+                        <h:outputText value="#{bundle.ViewRedevableLabel_dateDeCommencement}"/>
+                        <h:outputText value="#{redevableController.selected.dateDeCommencement}" title="#{bundle.ViewRedevableTitle_dateDeCommencement}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewRedevableLabel_id}"/>
+                        <h:outputText value="#{redevableController.selected.id}" title="#{bundle.ViewRedevableTitle_id}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="RedevableViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
