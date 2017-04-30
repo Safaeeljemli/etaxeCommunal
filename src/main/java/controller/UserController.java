@@ -66,7 +66,7 @@ public class UserController implements Serializable {
                 break;
             default:
                 try {
-                    SessionUtil.redirect("/eTaxeCommunal/faces/secured/redevable/CreateNewRedevable");
+                    SessionUtil.redirect("/eTaxeCommunal/faces/secured/home/accueil");
                     System.out.println(SessionUtil.getConnectedUser());
                 } catch (IOException ex) {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);

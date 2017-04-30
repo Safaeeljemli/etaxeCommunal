@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <link rel="icon" type="image/png" href="image/icone.png" />
+    </h:head>
+
+    <style >
+        body {
+            color:black;
+            background-color:white;
+            background-image:url(eeeeeeeee.jpg);
+        }
+
+        .imagelink {
+            margin:15px auto;
+            position:relative;
+            border-radius:60px;
+            width:100px;
+            height:60px;
+            padding-top:60px;
+            background-size:cover;
+            background-repeat:no-repeat;
+        }
+
+
+        img {
+            width:20px;
+            margin:20px;
+        }
+
+        .icone li {
+            width: 60px;
+            height: 60px;
+            display: inline-block;
+            background-image: url("sprite.png");
+            background-repeat: no-repeat;
+        }
+
+        .img1 { background-position: left top; }
+        .img2 { background-position: 20% top; }
+        .img3 { background-position: 40% top; }
+
+        .img1:hover { background-position: left bottom; }
+        .img2:hover { background-position: 20% bottom; }
+        .img3:hover { background-position: 40% bottom; }
+
+
+    </style>
+    <h:body>
+        <a><center>
+                <img src="image/header.PNG" alt="Submit this form" name="sub_but" style="width:900px;height:250px" /></center>
+        </a>
+        <center><h1>Gestion Des Taxes Boisson</h1></center>
+
+        <center>
+            <a href="/eTaxeCommunal/faces/secured/statistics/Statistique.xhtml">
+                <h:graphicImage class="imagelink" value="image/shart.jpg" title="shart" style="width:130px;height:130px" >
+                    shart
+                </h:graphicImage>
+            </a>
+            <a href="/eTaxeCommunal/faces/secured/locale/List.xhtml">
+                <h:graphicImage class="imagelink"  value="image/14567.png" title="map" style="width:130px;height:130px" >
+                    map
+                </h:graphicImage>
+            </a>
+            <a href="/eTaxeCommunal/faces/secured/redevable/CreateNewRedevable.xhtml">
+                <h:graphicImage class="imagelink"  value="image/redevable.jpg" title="redevable" style="width:130px;height:130px" >
+                    redevable
+                </h:graphicImage>
+            </a>
+            <br/>
+             <a href="/eTaxeCommunal/faces/secured/user/List.xhtml">
+                <h:graphicImage class="imagelink"  value="image/users.png" title="utilisateur" style="width:130px;height:130px" >
+                    utilisateur
+                </h:graphicImage>
+            </a>
+            <a href="/eTaxeCommunal/faces/secured/user/List.xhtml">
+                <h:graphicImage class="imagelink"  value="image/taxes.jpg" title="taxes" style="width:130px;height:130px" >
+                    taxes
+                </h:graphicImage>
+            </a>
+           
+        </center>
+
+        <br />
+        <br />
+
+
+        
+        
+        
+        <p:gmap center="31.625832802876324,-7.988905906677246" zoom="13" type="ROADMAP" style="width:100%;height:400px"
+                model="#{localeController.simpleModel}"  />
+
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBDNr0iHK-GjfC5Oj_D3Us6j6a1gxLDAg8" sensor="false"/>
+
+    </h:body>
+
+
+
+
+</html>

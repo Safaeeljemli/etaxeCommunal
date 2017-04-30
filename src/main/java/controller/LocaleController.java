@@ -78,6 +78,7 @@ public class LocaleController implements Serializable {
 
     private Double lat = 0D;
     private Double lng = 0D;
+    private MapModel simpleModel;
 
     /*
     *
@@ -96,6 +97,7 @@ public class LocaleController implements Serializable {
     @PostConstruct
     public void init() {
         emptyModel = new DefaultMapModel();
+        simpleModel = new DefaultMapModel();
     }
 
     public String getDesabeledPosition() {
@@ -387,6 +389,18 @@ public class LocaleController implements Serializable {
         getFacade().edit(getSelected());
         cancelCreation();
         redirect();
+    }
+
+    
+    public MapModel getSimpleModel() {
+        simpleModel = new DefaultMapModel();
+        
+        //Shared coordinates
+        LatLng coord1 = new LatLng(31.624327259904753, -7.984331130719511);
+
+        //Basic marker
+        simpleModel.addOverlay(new Marker(coord1, "Direction des Impots"));
+        return simpleModel;
     }
 
     public void redirect() throws IOException {

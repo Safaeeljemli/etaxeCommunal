@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="../template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListCommuneTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <div class="ui-grid">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <h:form id="CommuneListForm">
+                            <p:panel >
+                                <p:dataTable id="datalist" value="#{communeController.communesAvailableSelectOne}" var="item"
+                                             paginator="true"
+                                             rowKey="#{item.id}"
+                                             rows="10"
+                                             rowsPerPageTemplate="5,10,15,20"
+                                             >
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="N°"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Commune"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.name}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Options"/>
+                                        </f:facet>
+                                        <p:commandButton class="OptionButton" id="commune" icon="ui-icon-plus"  actionListener="#{communeController.secteureByCommun(item)}" update=":SecteurListForm:datalist,:QuartierListForm:datalist,:RueListForm:datalist" />
+                                        <p:commandButton class="OptionButton" id="editButton"   icon="ui-icon-pencil" actionListener="#{communeController.setSelected(item)}" update=":CommuneEditForm" oncomplete="PF('CommuneEditDialog').show()" />
+                                    </p:column>
+                                    <f:facet name="footer">
+                                        <p:commandButton id="CreateButton"  value="Create"   icon="ui-icon-pencil" actionListener="#{communeController.prepareCreate()}" update=":CommuneCreateForm" oncomplete="PF('CommuneCreateDialog').show()" />
+                                    </f:facet>
+                                </p:dataTable>
+                            </p:panel>
+                        </h:form>
+                    </div>
+
+                    <div class="ui-grid-col-4">
+                        <h:form id="SecteurListForm">
+                            <p:panel >
+                                <p:dataTable id="datalist" value="#{communeController.thisCommun.secteurs}" var="item"
+                                             paginator="true"
+                                             rowKey="#{item.id}"
+                                             rows="10"
+                                             rowsPerPageTemplate="5,10,15,20"
+                                             >
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="N°"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Secteur"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.name}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Options"/>
+                                        </f:facet>
+                                        <p:commandButton class="OptionButton" id="secteur" icon=" ui-icon-plus"  actionListener="#{communeController.quartierBySecteure(item)}" update=":QuartierListForm:datalist,:RueListForm:datalist" />
+                                        <p:commandButton class="OptionButton" id="editButton"   icon="ui-icon-pencil" actionListener="#{secteurController.setSelected(item)}" update=":SecteurEditForm" oncomplete="PF('SecteurEditDialog').show()" />
+                                    </p:column>
+                                    <f:facet name="footer">
+                                        <p:commandButton id="CreateButton"  value="Create"   icon="ui-icon-pencil" actionListener="#{secteurController.prepareCreate()}" update=":SecteurCreateForm" oncomplete="PF('SecteurCreateDialog').show()" />
+                                    </f:facet>
+                                </p:dataTable>
+                            </p:panel>
+                        </h:form>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <h:form id="QuartierListForm">
+                            <p:panel >
+                                <p:dataTable id="datalist" value="#{communeController.thisSecteur.quartiers}" var="item"
+                                             paginator="true"
+                                             rowKey="#{item.id}"
+                                             rows="10"
+                                             rowsPerPageTemplate="5,10,15,20"
+                                             >
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="N°"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Quartiers"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.name}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Options"/>
+                                        </f:facet>
+                                        <p:commandButton class="OptionButton" id="quartier" icon=" ui-icon-plus"  actionListener="#{communeController.rueByQuartier(item)}" update=":RueListForm:datalist" />
+                                        <p:commandButton class="OptionButton" id="editButton"   icon="ui-icon-pencil" actionListener="#{quartierController.setSelected(item)}" update=":QuartierEditForm" oncomplete="PF('QuartierEditDialog').show()" />
+                                    </p:column>
+                                    <f:facet name="footer">
+                                        <p:commandButton id="CreateButton" value="Create"   icon="ui-icon-pencil" actionListener="#{quartierController.prepareCreate()}" update=":QuartierCreateForm" oncomplete="PF('QuartierCreateDialog').show()" />
+                                    </f:facet>
+                                </p:dataTable>
+                            </p:panel>
+                        </h:form>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <h:form id="RueListForm">
+                            <p:panel >
+                                <p:dataTable id="datalist" value="#{communeController.thisQuartier.rues}" var="item" 
+                                             paginator="true"
+                                             rowKey="#{item.id}"
+                                             rows="10"
+                                             rowsPerPageTemplate="5,10,15,20"
+                                             >
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Rues"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.name}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="N°:"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton class="OptionButton" id="editButton"   icon="ui-icon-pencil" actionListener="#{rueController.setSelected(item)}" update=":RueEditForm" oncomplete="PF('RueEditDialog').show()" />
+                                    </p:column>
+                                    <f:facet name="footer">
+                                        <p:commandButton id="CreateButton" value="Create"   icon="ui-icon-pencil" actionListener="#{rueController.prepareCreate()}" update=":RueCreateForm" oncomplete="PF('RueCreateDialog').show()" />
+                                    </f:facet>
+                                </p:dataTable>
+                            </p:panel>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="../quartier/Create.xhtml"/>
+            <ui:include src="../quartier/Edit.xhtml"/>
+            <ui:include src="../rue/Create.xhtml"/>
+            <ui:include src="../rue/Edit.xhtml"/>
+            <ui:include src="../secteur/Create.xhtml"/>
+            <ui:include src="../secteur/Edit.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>
